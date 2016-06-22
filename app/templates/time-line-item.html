@@ -1,0 +1,36 @@
+<md-card>
+    <md-card-header>
+        <md-card-avatar>
+            <img class="md-user-avatar" ng-src="apiv1/image/{{ post.idProfileImage }}.{{ post.profileImageType }}"/>
+        </md-card-avatar>
+        <md-card-header-text>
+            <span class="md-title"><a ng-href="#/user/{{post.idUser}}/{{post.name}}" >{{post.name}}</a></span>
+            <span class="md-subhead">{{post.data |  date:"dd/MM/yyyy  HH:mm"}}
+                <a ng-href="#/list/{{list.idList}}/{{list.name}}"  ng-repeat="list in post.lists">{{list.name}}</a>
+            </span>
+        </md-card-header-text>
+    </md-card-header>
+    <md-card-content>
+        <p>{{post.texto}}</p>
+        <img class="md-media-xl" ng-src="apiv1/image/{{ image.idImage }}.{{ image.type }}" ng-repeat="image in post.images" />
+    </md-card-content>
+
+    <md-card-footer ng-if="post.openGraphED">
+        <a ng-href={{post.openGraphED.url}}>
+            <md-card-title-media>
+                <img ng-src="{{post.openGraphED.image}}" class="md-card-image" >
+            </md-card-title-media>
+            <p>{{post.openGraphED.description}}</p>
+        </a>
+    </md-card-footer>
+
+    <md-card-footer ng-if="post.replies">
+        <div time-line-item post="replie" ng-repeat="replie in post.replies" ></div>
+    </md-card-footer>
+
+
+    <md-card-actions>
+        <md-button>Action 1</md-button>
+        <md-button>Action 2</md-button>
+    </md-card-actions>
+</md-card>

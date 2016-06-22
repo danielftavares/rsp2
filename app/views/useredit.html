@@ -1,0 +1,19 @@
+<div main-area layout="row" >
+    <h2>Dados de {{user.login}}</h2>
+    <md-content layout-padding>
+        <form name="projectForm">
+            <md-input-container class="md-block">
+                <label>Nome</label>
+                <input ng-model="user.nome">
+            </md-input-container>
+            <md-input-container class="md-block" ng-repeat="field in fields" >
+                <label>{{field.label}}</label>
+                <input ng-model="mapProfileValue[field.idProfileField]" >
+            </md-input-container>
+
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <md-button ng-click="btnSalvarClick()" class="md-raised md-primary">Salvar</md-button>
+            </section>
+        </form>
+    </md-content>
+</div>

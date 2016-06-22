@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html ng-app="rspApp">
+ 
+<head>
+ 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+    <!-- Page title set in pageTitle directive -->
+    <title page-title></title>
+ 
+ 
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+     
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" href="./bower_components/lf-ng-md-file-input/dist/lf-ng-md-file-input.css">
+ 
+    <!-- Main Inspinia CSS files -->
+    <!-- endbower -->
+    <!-- endbuild -->
+ 
+    <!-- build:css({.tmp,app}) styles/style.css -->
+    <link href="styles/style.css" rel="stylesheet">
+    <!-- endbuild -->
+ 
+ 
+</head>
+ 
+<!-- ControllerAs syntax -->
+<!-- Main controller with serveral data used in Inspinia theme on diferent view -->
+<body layout="row" ng-cloak>
+
+<div ng-view layout="row"></div>
+
+<!-- build:js(.) scripts/vendor.js -->
+ 
+
+
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/angular-route/angular-route.min.js"></script>
+<script src="bower_components/angular-aria/angular-aria.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-material/angular-material.js"></script>
+<script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+<script src="bower_components/lf-ng-md-file-input/dist/lf-ng-md-file-input.js"></script>
+ 
+<!-- endbuild -->
+ 
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+ 
+<!-- Anglar App Script -->
+<script src="scripts/app.js"></script>
+<script src="scripts/config.js"></script>
+<script src="scripts/directives.js"></script>
+<script src="scripts/services.js"></script>
+<script src="scripts/controllers.js"></script>
+<script src="scripts/filters.js"></script>
+<!-- endbuild -->
+ 
+</body>
+</html>
