@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import com.procergs.rsp.user.ed.UserEd;
 
 @Entity
-@Table(name = "USER_LIKE")
+@Table(name = "RSP_USER_LIKE")
 public class LikeED implements Serializable {
 
 	@Id

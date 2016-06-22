@@ -2,29 +2,20 @@ package com.procergs.rsp.user.ed;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.procergs.rsp.image.ed.ImageED;
 import com.procergs.rsp.profile.ed.ProfileFieldValue;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "RSP_USUARIO")
 public class UserEd {
 
 	@Id
 	@Column(name = "ID_USUARIO")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "ID_RSP_USUARIO_SEQ", sequenceName = "ID_RSP_USUARIO_SEQ", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ID_RSP_USUARIO_SEQ")
 	private Long idUsuario;
 	
 	

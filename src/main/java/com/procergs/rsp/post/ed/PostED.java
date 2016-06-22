@@ -11,7 +11,7 @@ import com.procergs.rsp.opengraph.ed.OpenGraphED;
 import com.procergs.rsp.user.ed.UserEd;
 
 @Entity
-@Table(name = "post")
+@Table(name = "RSP_POST")
 public class PostED {
 
 	public PostED() {
@@ -22,7 +22,8 @@ public class PostED {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "ID_POST_SEQ", sequenceName = "ID_POST_SEQ", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ID_POST_SEQ")
 	@Column(name = "ID_POST")
 	private Long idPost;
 
@@ -38,7 +39,7 @@ public class PostED {
 	private UserEd userEd;
 
 	@ManyToMany
-	@JoinTable( name="LIST_POST",
+	@JoinTable( name="RSP_LIST_POST",
 			joinColumns=@JoinColumn(name="ID_POST"),
 			inverseJoinColumns=@JoinColumn(name="ID_LIST"))
 	private List<ListED> lists;
