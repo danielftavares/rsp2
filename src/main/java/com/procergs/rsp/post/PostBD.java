@@ -35,7 +35,7 @@ public class PostBD {
 		sql.append("		select 1 from RSP_FOLLOW FOLLOW ");
 		sql.append(" where FOLLOW.ID_FOLLOWER = ? ");
 		sql.append(" and (post.ID_USUARIO  = FOLLOW.ID_FOLLOWED ");
-		sql.append(" 		OR EXISTS (select 1 FROM LIST_POST ");
+		sql.append(" 		OR EXISTS (select 1 FROM RSP_LIST_POST LIST_POST ");
 		sql.append(" 					WHERE LIST_POST.ID_POST = post.ID_POST ");
 		sql.append(" 					and LIST_POST.ID_LIST = FOLLOW.ID_LIST_FOLLOWED ) ");
 		sql.append(" 	 ) ");

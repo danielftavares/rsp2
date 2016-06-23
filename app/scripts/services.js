@@ -220,6 +220,60 @@ function UserService($http, localStorageService){
 
     }
 
+
+
+
+
+
+
+
+
+
+    userService.like = function(post, callback) {
+
+        $http.post('/rsp/apiv1/post/l/'+post.idPost, null, {
+                      headers: {
+                        'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token,
+                        'Content-Type': undefined
+                      },
+                      transformRequest: angular.identity
+                  }).then(function(result){
+                      callback(result.data);
+                  },function(err){
+                      // do sometingh
+                  });
+    }
+
+    userService.dislike = function(post, callback) {
+          $http.post('/rsp/apiv1/post/dl/'+post.idPost, null, {
+                        headers: {
+                          'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token,
+                          'Content-Type': undefined
+                        },
+                        transformRequest: angular.identity
+                    }).then(function(result){
+                        callback(result.data);
+                    },function(err){
+                        // do sometingh
+                    });
+    }
+
+    userService.deletePost = function(post, callback) {
+            $http.post('/rsp/apiv1/post/d/'+post.idPost, null, {
+                          headers: {
+                            'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token,
+                            'Content-Type': undefined
+                          },
+                          transformRequest: angular.identity
+                      }).then(function(result){
+                          callback(result.data);
+                      },function(err){
+                          // do sometingh
+                      });
+    }
+
+
+
     userService.isUserLogged();
     return userService;
 }

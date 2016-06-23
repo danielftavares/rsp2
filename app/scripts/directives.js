@@ -21,6 +21,10 @@ function postArea(){
                 console.log(obj);
                 formData.append('pi', obj.lfFile);
             });
+
+            if($scope.parent){
+                formData.append('pp', $scope.parent.idPost);
+            }
             formData.append("t", $scope.txtPost);
             userService.post(formData)
         }
@@ -29,6 +33,9 @@ function postArea(){
             $scope.addImagem = true;
         }
     }],
+    scope: {
+        parent: '='
+    },
     templateUrl: 'templates/post-area.html'
   };
 }
@@ -123,6 +130,33 @@ function timeLine(){
 
 function timeLineItem(){
 	return {
+	    controller: ['$scope', '$timeout', 'userService', function($scope, $timeout, userService){
+	        $scope.respondendo = false;
+	        $scope.isMine = false;
+
+	        $timeout(function(){
+                $scope.isMine = userService.getLoggedUser().userEd.idUsuario == $scope.post.idUser;
+            });
+
+	        $scope.iniciarresposta = function (){
+	            $scope.respondendo = true;
+	        }
+
+            $scope.deleta = function(){
+                userService.deletePost($scope.post, function(){
+                    console.log("deletado");
+                });
+            }
+
+            $scope.curtir = function(){
+                userService.like($scope.post, function(){
+                    console.log("deletado");
+                });
+            }
+
+
+
+	    }],
         templateUrl: 'templates/time-line-item.html',
         scope: {
           post: '='
