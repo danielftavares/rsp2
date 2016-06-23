@@ -66,7 +66,6 @@ public class PostService {
 
 	PostBD postBD;
 
-	Directory directory;
 
 	@EJB
 	ImageService imageService;
@@ -80,20 +79,6 @@ public class PostService {
 	@PostConstruct
 	public void init() {
 		postBD = new PostBD(em);
-		try {
-			// directory = FSDirectory.open(Paths.get(new
-			// URI("file:///"+System.getProperty("java.io.tmpdir")+File.separator
-			// + "rsp"+File.separator )));
-			directory = FSDirectory.open(Paths.get(System.getProperty("rsp.lucene.path")));
-			// directory.create();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// catch (URISyntaxException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
 	}
 
 	@POST
@@ -148,7 +133,6 @@ public class PostService {
 				imageService.insert(imageED);
 			}
 
-			indexPost(postED);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -184,21 +168,6 @@ public class PostService {
 			} catch (Exception e){
         		e.printStackTrace();
 			}
-		}
-	}
-
-	private void indexPost(PostED postED) {
-		Document d = new Document();
-
-		d.add(new TextField("text", postED.getTexto(), Field.Store.YES ));
-		d.add(new SortedNumericDocValuesField("id", postED.getIdPost() ));
-
-		try {
-			IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(new PortugueseAnalyzer()));
-			writer.addDocument(d);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -289,17 +258,7 @@ public class PostService {
 	private void deletePost(PostED postED){
 		Collection<PostED> replies = postBD.listReplies(postED);
 		replies.forEach(postED1 -> deletePost(postED1));
-
-        postBD.delete(postED);
-        try {
-            IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(new PortugueseAnalyzer()));
-            BytesRefBuilder ref = new BytesRefBuilder();
-            NumericUtils.longToPrefixCoded( postED.getIdPost(), 0, ref );
-            writer.deleteDocuments(new Term("id", ref));
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		postBD.delete(postED);
 
 	}
 
@@ -308,58 +267,58 @@ public class PostService {
     @Path("/s")
     public PostSearchResultED search(@FormParam("st") String searchTerm, @Context HttpServletRequest httpRequest) {
         PostSearchResultED postSearchResult = new PostSearchResultED();
-
-        try{
-            IndexReader reader = DirectoryReader.open(directory);
-            IndexSearcher searcher = new IndexSearcher(reader);
-            Analyzer analyzer = new PortugueseAnalyzer();
-			QueryParser parser = new QueryParser("text", analyzer);
-			org.apache.lucene.search.Query query = parser.parse(searchTerm);
-
-			Sort sort = new Sort();
-			sort.setSort(new SortedNumericSortField("id", SortField.Type.LONG, true));
-            TopDocs results = searcher.search(query, 10, sort);
-            ScoreDoc[] hits = results.scoreDocs;
-
-            int numTotalHits = results.totalHits;
-            System.out.println(numTotalHits + " total matching documents");
-
-            int start = 0;
-            int end = Math.min(numTotalHits, 20);
-
-            Set<PostResultED> listPosts = new HashSet<>();
-            postSearchResult.setPosts(listPosts);
-
-            for (int i = start; i < end; i++) {
-                System.out.println("doc="+hits[i].doc+" score="+hits[i].score);
-
-                Document doc = searcher.doc(hits[i].doc);
-                String idPost = doc.get("id");
-                if (idPost != null) {
-					PostResultED postED = loadParent(Long.valueOf(idPost), httpRequest);
-					if(postED != null){
-						listPosts.add(postED);
-					}
-                    System.out.println((i+1) + ". " + idPost);
-                    String title = doc.get("text");
-                    if (title != null) {
-                        System.out.println("   Title: " + doc.get("text"));
-                    }
-                } else {
-                    System.out.println((i+1) + ". " + "No path for this document");
-                }
-
-            }
-
-            reader.close();
-
-        } catch (IOException e){
-            e.printStackTrace();
-        } catch (ParseException e) {
-					e.printStackTrace();
-		} finally {
-
-        }
+//
+//        try{
+//            IndexReader reader = DirectoryReader.open(directory);
+//            IndexSearcher searcher = new IndexSearcher(reader);
+//            Analyzer analyzer = new PortugueseAnalyzer();
+//			QueryParser parser = new QueryParser("text", analyzer);
+//			org.apache.lucene.search.Query query = parser.parse(searchTerm);
+//
+//			Sort sort = new Sort();
+//			sort.setSort(new SortedNumericSortField("id", SortField.Type.LONG, true));
+//            TopDocs results = searcher.search(query, 10, sort);
+//            ScoreDoc[] hits = results.scoreDocs;
+//
+//            int numTotalHits = results.totalHits;
+//            System.out.println(numTotalHits + " total matching documents");
+//
+//            int start = 0;
+//            int end = Math.min(numTotalHits, 20);
+//
+//            Set<PostResultED> listPosts = new HashSet<>();
+//            postSearchResult.setPosts(listPosts);
+//
+//            for (int i = start; i < end; i++) {
+//                System.out.println("doc="+hits[i].doc+" score="+hits[i].score);
+//
+//                Document doc = searcher.doc(hits[i].doc);
+//                String idPost = doc.get("id");
+//                if (idPost != null) {
+//					PostResultED postED = loadParent(Long.valueOf(idPost), httpRequest);
+//					if(postED != null){
+//						listPosts.add(postED);
+//					}
+//                    System.out.println((i+1) + ". " + idPost);
+//                    String title = doc.get("text");
+//                    if (title != null) {
+//                        System.out.println("   Title: " + doc.get("text"));
+//                    }
+//                } else {
+//                    System.out.println((i+1) + ". " + "No path for this document");
+//                }
+//
+//            }
+//
+//            reader.close();
+//
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        } catch (ParseException e) {
+//					e.printStackTrace();
+//		} finally {
+//
+//        }
         return postSearchResult;
     }
 

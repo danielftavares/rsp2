@@ -6,11 +6,12 @@ import javax.persistence.*;
  * Created by daniel-tavares on 29/02/16.
  */
 @Entity
-@Table(name = "OPEN_GRAPH")
+@Table(name = "RSP_OPEN_GRAPH")
 public class OpenGraphED {
 
   @Id
-  @GeneratedValue(strategy= GenerationType.IDENTITY)
+  @SequenceGenerator(name = "ID_OPEN_GRAPH_SEQ", sequenceName = "ID_OPEN_GRAPH_SEQ", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ID_OPEN_GRAPH_SEQ")
   @Column(name = "ID_OPEN_GRAPH")
   private Long idOpenGraph;
 

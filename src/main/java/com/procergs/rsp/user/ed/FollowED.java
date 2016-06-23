@@ -1,23 +1,17 @@
 package com.procergs.rsp.user.ed;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.procergs.rsp.list.ed.ListED;
 
 
 @Entity
-@Table(name = "FOLLOW")
+@Table(name = "RSP_FOLLOW")
 public class FollowED {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@SequenceGenerator(name = "ID_FOLLOW_SEQ", sequenceName = "ID_FOLLOW_SEQ", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ID_FOLLOW_SEQ")
 	@Column(name = "ID_FOLLOW")
 	private Long idFollow;
 	

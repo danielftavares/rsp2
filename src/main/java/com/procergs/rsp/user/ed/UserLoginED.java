@@ -13,7 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "usuario_login")
+@Table(name = "RSP_USUARIO_LOGIN")
 public class UserLoginED implements Serializable{
 	
 	@Id

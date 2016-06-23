@@ -13,7 +13,7 @@ import com.procergs.rsp.user.ed.UserEd;
 
 
 @Entity
-@Table(name = "PROFILE_FIELD_VALUE")
+@Table(name = "RSP_PROFILE_FIELD_VALUE")
 public class ProfileFieldValue implements Serializable {
 	
 	@Id

@@ -29,10 +29,10 @@ public class PostBD {
 
 	public Collection<PostED> list(UserEd user, Long idLastPost, Long idFirstPost) {
 		StringBuilder sql = new StringBuilder();
-		sql.append(" select * from post ");
+		sql.append(" select * from RSP_POST post ");
 		sql.append(" where post.ID_POST_PARENT is null and (post.ID_USUARIO = ? ");
 		sql.append(" or exists ( ");
-		sql.append("		select 1 from FOLLOW ");
+		sql.append("		select 1 from RSP_FOLLOW FOLLOW ");
 		sql.append(" where FOLLOW.ID_FOLLOWER = ? ");
 		sql.append(" and (post.ID_USUARIO  = FOLLOW.ID_FOLLOWED ");
 		sql.append(" 		OR EXISTS (select 1 FROM LIST_POST ");
@@ -68,9 +68,9 @@ public class PostBD {
 	public Collection<PostED> listPostList(Long idList, Long idLastPost, Long idFirstPost) {
 
 		StringBuilder sql = new StringBuilder();
-		sql.append(" select * from post ");
+		sql.append(" select * from RSP_POST post ");
 		sql.append(" where post.ID_POST_PARENT is null and  ");
-		sql.append(" EXISTS (select 1 FROM LIST_POST ");
+		sql.append(" EXISTS (select 1 FROM RSP_LIST_POST LIST_POST ");
 		sql.append(" WHERE LIST_POST.ID_POST = post.ID_POST ");
 		sql.append(" and LIST_POST.ID_LIST = ? ) ");
 		if(idLastPost != null){
@@ -99,7 +99,7 @@ public class PostBD {
 
 	public Collection<PostED> listPostUser(Long idUser, Long idLastPost, Long idFirstPost) {
 		StringBuilder sql = new StringBuilder();
-		sql.append(" select * from post ");
+		sql.append(" select * from RSP_POST post ");
 		sql.append(" where post.ID_POST_PARENT is null and post.ID_USUARIO = ? ");
 		if(idLastPost != null){
 			sql.append(" AND post.ID_POST < ? ");

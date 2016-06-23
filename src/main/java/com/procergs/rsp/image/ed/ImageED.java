@@ -2,31 +2,20 @@ package com.procergs.rsp.image.ed;
 
 import java.util.Calendar;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.procergs.rsp.post.ed.PostED;
 
 @Entity
-@Table(name = "IMAGE")
+@Table(name = "RSP_IMAGE")
 @XmlRootElement
 public class ImageED {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "ID_RSP_IMAGE_SEQ", sequenceName = "ID_RSP_IMAGE_SEQ", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ID_RSP_IMAGE_SEQ")
 	@Column(name = "ID_IMAGE")
 	private Long idImage;
 
