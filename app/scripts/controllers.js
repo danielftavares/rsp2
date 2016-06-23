@@ -15,17 +15,18 @@ function LoginCtrl ($scope, $location, userService){
 }
 
 function MainCtrl ($scope, userService){
+    $scope.listPosts = function(data, callback){
+        userService.listPosts(data, callback);
+    }
 
-    userService.listPosts({},function(posts){
-        $scope.posts = posts;
-    });
 }
 
 function UserCtrl ($scope, $routeParams, userService){
 
-    userService.listPosts({"u": $routeParams.iduser},function(posts){
-        $scope.posts = posts;
-    });
+    $scope.listPosts = function(data, callback){
+        data.u = $routeParams.iduser;
+        userService.listPosts(data, callback);
+    }
 
     userService.findUserById($routeParams.iduser, function(user){
         $scope.user = user;

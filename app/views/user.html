@@ -1,5 +1,5 @@
-<div main-area layout="row" >
-    <div layout="row" layout-xs="column">
+<div main-area layout="row" layout-fill >
+    <div layout="row" layout-xs="column" layout-fill>
         <div flex="initial">
             <img class="rsp-user" ng-src="apiv1/image/{{ user.profileImage.idImage }}.{{ user.profileImage.type }}"/>
             <h2>{{user.nome}}</h2>
@@ -10,7 +10,7 @@
             <div follow-btn user="user"></div>
         </div>
         <div flex>
-            <div time-line posts="posts" ></div>
+            <div time-line fnextpage="listPosts" ></div>
         </div>
     </div>
 </div>

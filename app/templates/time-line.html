@@ -1,3 +1,2 @@
-<div ng-repeat="post in posts">
-    <div time-line-item post="post"></div>
-</div>
+<div time-line-item post="post" ng-repeat="post in posts" ></div>
+<md-button md-no-ink class="md-primary" ng-click="carregarmais(true)" ng-disabled="carregando">Carregar Mais</md-button>

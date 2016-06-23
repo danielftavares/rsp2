@@ -16,9 +16,9 @@
     "tests"
   ],
   "dependencies": {
-    "angular-material": "^1.0.7",
-    "angular": "^1.5.5",
-    "angular-route": "^1.5.5",
+    "angular-material": "^1.0.9",
+    "angular": "^1.5.7",
+    "angular-route": "^1.5.7",
     "angular-local-storage": "^0.2.7",
     "lf-ng-md-file-input": "^1.4.7"
   }

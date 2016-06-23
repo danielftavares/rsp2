@@ -50,8 +50,71 @@ function mainArea(){
 
 function timeLine(){
 	return {
+	    controller: ['$scope', '$timeout', function($scope, $timeout){
+            $scope.posts =[];
+            $scope.carregando = true;
+            $scope.carregarmais = function(loadMore){
+                $scope.carregando = true;
+                var data = {};
+                var firstPost = null;
+                console.log(loadMore)
+                if(loadMore){
+                    var lastPost = $scope.posts[$scope.posts.length - 1].idPost;
+                    data.lp = lastPost;
+                }
+
+
+                $scope.fnextpage(data, angular.bind(this, function(posts){
+                        $scope.carregando = false;
+                        $scope.posts = $scope.posts.concat(posts);
+                  }));
+            };
+
+            $timeout($scope.carregarmais);
+/*
+            $scope.infiniteItems = {
+                  numLoaded_: 0,
+                  toLoad_: 0,
+                  posts: [],
+                  // Required.
+                  getItemAtIndex: function(index) {
+                    if (index > this.numLoaded_) {
+                      this.fetchMoreItems_(index);
+                      return null;
+                    }
+                    return this.posts[index];
+                  },
+                  // Required.
+                  // For infinite scroll behavior, we always return a slightly higher
+                  // number than the previously loaded items.
+                  getLength: function() {
+                    return this.numLoaded_ + 5;
+                  },
+                  fetchMoreItems_: function(index) {
+                    // For demo purposes, we simulate loading more items with a timed
+                    // promise. In real code, this function would likely contain an
+                    // $http request.
+                    if (this.toLoad_ < index) {
+                      this.toLoad_ += 5;
+                      console.log("carregando");
+                      $scope.fnextpage(angular.bind(this, function(posts){
+                            console.log(posts);
+                            this.posts = this.posts.concat(posts);
+                            this.numLoaded_ = this.toLoad_;
+                      }));
+                    }
+                  }
+                };
+<md-virtual-repeat-container id="vertical-container" layout-fill>
+    <div md-virtual-repeat="post in infiniteItems" md-on-demand class="repeated-item" flex>
+        <div time-line-item post="post"></div>
+    </div>
+</md-virtual-repeat-container>
+*/
+
+        }],
         scope: {
-          posts: '='
+          fnextpage: '='
         },
         templateUrl: 'templates/time-line.html'
     };
