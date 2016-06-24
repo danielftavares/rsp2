@@ -20,7 +20,6 @@ public class ImageED {
 	private Long idImage;
 
 	@Basic(fetch = FetchType.LAZY)
-	@Lob
 	@Column(name = "IMAGE")
 	private byte[] image;
 

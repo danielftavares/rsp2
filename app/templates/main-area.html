@@ -3,18 +3,22 @@
                 md-component-id="left" hide-print
                 md-is-locked-open="$mdMedia('gt-sm')">
         <header class="nav-header">
-            <a ng-href="/" class="docs-logo">
-                <img src="img/icons/angular-logo.svg" alt="" />
-                <h1 class="docs-logotype md-heading">Angular Material</h1>
+            <a ng-href="#/main" class="docs-logo">
+                <img class="rsp-user" ng-src="apiv1/image/{{ user.profileImage.idImage }}.{{ user.profileImage.type }}"/>
+                <h1 class="docs-logotype md-heading">Bem Vindo {{user.nome}}</h1>
             </a>
         </header>
         <md-content layout-padding >
-            <md-button ng-click="close()" class="md-primary" hide-gt-md>
-                Close Sidenav Left
-            </md-button>
             <p hide-md show-gt-md>
-                This sidenav is locked open on your device. To go back to the default behavior,
-                narrow your display.
+                <md-list flex>
+                    <ul>
+                        <li><a ng-href="#/main" >Página Inicial</a></li>
+                        <li><a ng-href="#/editprofile" >Editar Perfil</a></li>
+                        <li>Listas</li>
+                        <li>Seguindo</li>
+                        <li>Seguidores</li>
+                    </ul>
+                </md-list>
             </p>
         </md-content>
     </md-sidenav>
@@ -27,7 +31,7 @@
                     <md-icon md-svg-src="images/ic_menu_white_24px.svg"></md-icon>
                 </md-button>
 
-                <span flex></span>
+                <span flex><img src="images/logorsp.png" /></span>
 
                 <md-autocomplete
                         ng-disabled="ctrl.isDisabled"

@@ -44,11 +44,13 @@ function postArea(){
 
 function mainArea(){
 	return {
-	  controller: ['$scope', '$mdSidenav', '$timeout', function($scope, $mdSidenav, $timeout){
+	  controller: ['$scope', '$mdSidenav', '$timeout', 'userService', function($scope, $mdSidenav, $timeout, userService){
             $scope.openMenu = function(){
                 console.log("close");
                 $timeout(function() { $mdSidenav('left').open(); });
             }
+            $scope.user = userService.getLoggedUser().userEd;
+            console.log($scope.user);
       }],
 	  transclude: true,
       templateUrl: 'templates/main-area.html'

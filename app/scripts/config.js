@@ -21,6 +21,37 @@ angular.module('rspApp')
 	  });
 }]);
 
+
+angular.module('rspApp')
+.config(["$mdThemingProvider", function($mdThemingProvider) {
+
+
+//  $mdThemingProvider.definePalette('rspPalette', {
+//    '50': '#e1f5fe',
+//    '100': '#b3e5fc',
+//    '200': '#81d4fa',
+//    '300': '#4fc3f7',
+//    '400': '#29b6f6',
+//    '500': '#000000', // toolbar!
+//    '600': '#039be5',
+//    '700': '#0288d1',
+//    '800': '#0277bd',
+//    '900': '#01579b',
+//    'A100': '#80d8ff',
+//    'A200': '#40c4ff',
+//    'A400': '#00b0ff',
+//    'A700': '#0091ea',
+//    'contrastDefaultColor': 'dark',
+//    'contrastLightColors': '600 700 800 900 A700',
+//     'contrastStrongLightColors': '600 700 800 A700'
+//  });
+
+    $mdThemingProvider.theme('default')
+    .primaryPalette('grey',  {
+                                   'default': '900' // use shade 200 for default, and keep all other shades the same
+                                 });
+}]);
+
 angular.module('rspApp')
     .config(['localStorageServiceProvider', function (localStorageServiceProvider) {
       localStorageServiceProvider.setPrefix('rsp');
