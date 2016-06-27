@@ -13,8 +13,8 @@
   </md-card-title>
 
 	<md-card-actions layout="row"  ng-show="editing" >
-		<md-button md-no-ink class="md-primary" ng-click="postar()">Postar</md-button>
-		<md-button md-no-ink class="md-primary" ng-click="habilitaImagem()">Imagem</md-button>
-		<lf-ng-md-file-input ng-show="addImagem" lf-files='files' drag multiple preview accept="image/*"> </lf-ng-md-file-input>
+		<md-button md-no-ink class="md-primary" ng-click="postar()">Postar <md-icon md-svg-icon="images/icon/ic_send_black_24px.svg"></md-icon></md-button>
+		<md-button md-no-ink class="md-primary" ng-click="habilitaImagem()">Imagem <md-icon md-svg-icon="images/icon/ic_collections_black_24px.svg"></md-icon></md-button>
+		<lf-ng-md-file-input ng-show="addImagem" lf-files='files' multiple preview accept="image/*"> </lf-ng-md-file-input>
 	</md-card-actions>
 </md-card>

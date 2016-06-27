@@ -67,9 +67,33 @@ function UserEditCtrl($scope, userService) {
     }
 }
 
+function ListNewCtrl($scope, userService) {
+    $scope.lista = {nome: ''};
+    $scope.btnSalvarClick = function(){
+        console.log($scope.lista.nome);
+        userService.insertList($scope.lista.nome, function(){
+            console.log("salvou!!!")
+        });
+    }
+}
+
+
+function ListCtrl ($scope, $routeParams, userService){
+
+    $scope.listPosts = function(data, callback){
+        data.l = $routeParams.idList;
+        userService.listPosts(data, callback);
+    }
+    $scope.idlist = $routeParams.idList;
+    $scope.name = $routeParams.listname;
+
+}
+
 
 angular.module('rspApp')
 	.controller('LoginCtrl', ['$scope', '$location', 'userService', LoginCtrl])
 	.controller('MainCtrl', ['$scope', 'userService', MainCtrl])
 	.controller('UserCtrl', ['$scope', '$routeParams', 'userService', UserCtrl])
-	.controller('UserEditCtrl', ['$scope', 'userService', UserEditCtrl]);
+	.controller('UserEditCtrl', ['$scope', 'userService', UserEditCtrl])
+	.controller('ListNewCtrl', ['$scope', 'userService', ListNewCtrl])
+	.controller('ListCtrl', ['$scope', '$routeParams', 'userService', ListCtrl]);

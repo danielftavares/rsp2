@@ -16,6 +16,14 @@ angular.module('rspApp')
           templateUrl: 'views/useredit.html',
           controller: 'UserEditCtrl'
         }).
+      when('/criarlista', {
+          templateUrl: 'views/listnew.html',
+          controller: 'ListNewCtrl'
+        }).
+      when('/lista/:idList/:listname', {
+          templateUrl: 'views/list.html',
+          controller: 'ListCtrl'
+        }).
 	  otherwise({
 	    redirectTo: '/login'
 	  });

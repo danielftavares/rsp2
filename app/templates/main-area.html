@@ -3,23 +3,49 @@
                 md-component-id="left" hide-print
                 md-is-locked-open="$mdMedia('gt-sm')">
         <header class="nav-header">
-            <a ng-href="#/main" class="docs-logo">
-                <img class="rsp-user" ng-src="apiv1/image/{{ user.profileImage.idImage }}.{{ user.profileImage.type }}"/>
-                <h1 class="docs-logotype md-heading">Bem Vindo {{user.nome}}</h1>
-            </a>
+            <img class="rsp-user" ng-src="apiv1/image/{{ user.profileImage.idImage }}.{{ user.profileImage.type }}"/>
+            <h2 class="docs-logotype md-heading">Bem Vindo {{user.nome}}</h2>
         </header>
         <md-content layout-padding >
-            <p hide-md show-gt-md>
-                <md-list flex>
-                    <ul>
-                        <li><a ng-href="#/main" >Página Inicial</a></li>
-                        <li><a ng-href="#/editprofile" >Editar Perfil</a></li>
-                        <li>Listas</li>
-                        <li>Seguindo</li>
-                        <li>Seguidores</li>
-                    </ul>
-                </md-list>
-            </p>
+                <ul class="rsp-menu" rsp-menu>
+                    <li><md-button ng-href="#/main">Página Inicial</md-button></li>
+                    <li><md-button ng-href="#/editprofile" >Editar Perfil</md-button></li>
+                    <li>
+                        <h2 class="menu-heading md-subhead ng-binding ng-scope">
+                            Listas
+                        </h2>
+                        <ul>
+                            <li ng-repeat="lista in listas"  >
+                                <md-button ng-href="#/lista/{{lista.idList}}/{{lista.name}}" >{{lista.name}}</md-button>
+                            </li>
+                            <li><md-button ng-href="#/criarlista" >Criar Lista</md-button></li>
+                        </ul>
+
+
+                    </li>
+                    <li>
+                        <h2 class="menu-heading md-subhead ng-binding ng-scope">
+                            Seguindo
+                        </h2>
+                        <md-list>
+                            <md-list-item  ng-repeat="u in seguindo" ng-href="#/user/{{u.idUsuario}}/{{u.nome}}" >
+                                <img class="md-avatar" ng-src="apiv1/image/{{ u.profileImage.idImage }}.{{ u.profileImage.type }}" />
+                                <span>{{u.nome}}</span>
+                            </md-list-item>
+                        </md-list>
+                    </li>
+                    <li>
+                        <h2 class="menu-heading md-subhead ng-binding ng-scope">
+                            Seguidores
+                        </h2>
+                        <md-list>
+                            <md-list-item  ng-repeat="u in seguidores" ng-href="#/user/{{u.idUsuario}}/{{u.nome}}" >
+                                <img class="md-avatar" ng-src="apiv1/image/{{ u.profileImage.idImage }}.{{ u.profileImage.type }}" />
+                                <span>{{u.nome}}</span>
+                            </md-list-item>
+                        </md-list>
+                    </li>
+                </ul>
         </md-content>
     </md-sidenav>
 

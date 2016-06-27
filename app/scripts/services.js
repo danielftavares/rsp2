@@ -1,4 +1,4 @@
-function UserService($http, localStorageService){
+function UserService($http, localStorageService, $httpParamSerializer){
     var userService = this;
 
     userService.isUserLogged = function(){
@@ -139,6 +139,10 @@ function UserService($http, localStorageService){
 
     userService.following = [];
 
+    userService.getFollowingAndFollowers = function(callback){
+        userService.listFollowingAndFollowers(userService.loggedUser.userEd.idUsuario, function(l){ userService.following = l.following; callback(l) }, this);
+    }
+
     userService.listFollowingAndFollowers = function(idUser, callback){
         $http(
             {
@@ -273,10 +277,37 @@ function UserService($http, localStorageService){
     }
 
 
+    userService.insertList = function(listname, callback) {
+                $http.post('/rsp/apiv1/list', $httpParamSerializer({ln: listname }), {
+                              headers: {
+                                'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token,
+                                "Content-Type": "application/x-www-form-urlencoded;"
+                              },
+                              responseType: "json"
+                          }).then(function(result){
+                              callback(result.data);
+                          },function(err){
+                              // do sometingh
+                          });
+      }
+
+
+    userService.getListsFollowed = function(callback){
+        $http.get('/rsp/apiv1/list', {
+              type: 'json',
+              headers: {
+            	  'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
+              }
+            }).then(function(result){
+                callback(result.data);
+            },function(err){
+                // do sometingh
+            });
+    }
 
     userService.isUserLogged();
     return userService;
 }
 
 angular.module('rspApp')
-	.service('userService', ['$http', 'localStorageService', UserService])
+	.service('userService', ['$http', 'localStorageService','$httpParamSerializer', UserService])

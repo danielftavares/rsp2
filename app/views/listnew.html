@@ -1,0 +1,15 @@
+<div main-area layout="row" layout-fill >
+    <h2>Crie uma nova Lista de discussão</h2>
+    <md-content layout-padding>
+        <form name="projectForm">
+            <md-input-container class="md-block">
+                <label>Nome da lista</label>
+                <input md-maxlength="30" required ng-model="lista.nome">
+            </md-input-container>
+
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <md-button ng-click="btnSalvarClick()" class="md-raised md-primary">Salvar</md-button>
+            </section>
+        </form>
+    </md-content>
+</div>

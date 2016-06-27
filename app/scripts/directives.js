@@ -25,6 +25,9 @@ function postArea(){
             if($scope.parent){
                 formData.append('pp', $scope.parent.idPost);
             }
+            if($scope.idlist){
+              formData.append("l", $scope.idlist);
+            }
             formData.append("t", $scope.txtPost);
             userService.post(formData)
         }
@@ -34,7 +37,8 @@ function postArea(){
         }
     }],
     scope: {
-        parent: '='
+        parent: '=',
+        idlist: '='
     },
     templateUrl: 'templates/post-area.html'
   };
@@ -51,6 +55,18 @@ function mainArea(){
             }
             $scope.user = userService.getLoggedUser().userEd;
             console.log($scope.user);
+            $scope.listas = [];
+            userService.getListsFollowed(function(listas){
+                $scope.listas = listas;
+            });
+
+            $scope.seguindo = [];
+            $scope.seguidores = [];
+            userService.getFollowingAndFollowers(function(follow){
+                $scope.seguindo = follow.following;
+                $scope.seguidores = follow.followers;
+            });
+
       }],
 	  transclude: true,
       templateUrl: 'templates/main-area.html'
@@ -135,10 +151,21 @@ function timeLineItem(){
 	    controller: ['$scope', '$timeout', 'userService', function($scope, $timeout, userService){
 	        $scope.respondendo = false;
 	        $scope.isMine = false;
+            $scope.iLiked = false;
 
-	        $timeout(function(){
+            var carregapost = function(){
                 $scope.isMine = userService.getLoggedUser().userEd.idUsuario == $scope.post.idUser;
-            });
+                $scope.iLiked = false;
+                for (var i = 0; i < $scope.post.likes.length; i++) {
+                    if($scope.post.likes[i].idUser == userService.getLoggedUser().userEd.idUsuario){
+                        $scope.iLiked = true;
+                        break;
+                    }
+
+                }
+            }
+
+	        $timeout(carregapost);
 
 	        $scope.iniciarresposta = function (){
 	            $scope.respondendo = true;
@@ -150,11 +177,25 @@ function timeLineItem(){
                 });
             }
 
+
+
             $scope.curtir = function(){
-                userService.like($scope.post, function(){
-                    console.log("deletado");
-                });
+                console.log ($scope.iLiked);
+                if ($scope.iLiked){
+                    userService.dislike($scope.post, function(post){
+                        $scope.post = post;
+                        carregapost();
+                    });
+                } else {
+                    userService.like($scope.post, function(post){
+                        $scope.post = post;
+                        carregapost();
+                    });
+                }
+
             }
+
+
 
 
 
