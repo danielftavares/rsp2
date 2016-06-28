@@ -58,4 +58,10 @@ public class ListBD {
 		q.setParameter("listFollowed", f.getListFollowed());
 		q.executeUpdate();
 	}
+
+	public List<UserEd> listFollowers(Long idlist) {
+		Query q = em.createQuery("SELECT f.follower FROM FollowED f WHERE f.listFollowed.id = :idlist");
+		q.setParameter("idlist", idlist);
+		return q.getResultList();
+	}
 }

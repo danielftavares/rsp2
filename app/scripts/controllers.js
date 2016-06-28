@@ -40,8 +40,10 @@ function UserCtrl ($scope, $routeParams, userService){
 
 function UserEditCtrl($scope, userService) {
     $scope.mapProfileValue = {};
+
     userService.findUserById(userService.getLoggedUser().userEd.idUsuario, function(user){
         $scope.user = user;
+        $scope.user.files  = [];
     });
 
     userService.getProfileFields(function (fields){
@@ -61,6 +63,13 @@ function UserEditCtrl($scope, userService) {
         angular.forEach($scope.mapProfileValue, function(value, key){
             formData.append("f"+key, value);
         });
+
+        console.log($scope.user.files);
+        angular.forEach($scope.user.files,function(obj){
+            console.log(obj);
+            formData.append('pi', obj.lfFile);
+        });
+
         userService.updateProfile(formData, function(){
             console.log("salvou!!!")
         });
@@ -84,8 +93,10 @@ function ListCtrl ($scope, $routeParams, userService){
         data.l = $routeParams.idList;
         userService.listPosts(data, callback);
     }
-    $scope.idlist = $routeParams.idList;
-    $scope.name = $routeParams.listname;
+
+    userService.findListById($routeParams.idList, function(list){
+        $scope.list = list;
+    });
 
 }
 

@@ -27,8 +27,8 @@
     <md-card-actions>
         <md-button ng-click="iniciarresposta()" >Comentar</md-button>
         <md-button ng-click="curtir()" class="md-icon-button" aria-label="Gostar">
-            <md-icon ng-if="iLiked" md-svg-icon="images/icon/ic_thumb_up_black_24px.svg"></md-icon>
-            <md-icon ng-if="iLiked == false" md-svg-icon="images/icon/ic_thumb_up_grey_24px.svg"></md-icon>
+            <md-icon md-if="iLiked" md-svg-icon="images/icon/ic_thumb_up_black_24px.svg"></md-icon>
+            <md-icon md-if="iLiked " md-svg-icon="images/icon/ic_thumb_up_grey_24px.svg"></md-icon>
         </md-button>
         <span>({{ post.likes.length }})</span>
         <md-button ng-if="isMine" ng-click="deleta()" >Excluir <md-icon md-svg-icon="images/icon/ic_delete_black_24px.svg"></md-icon></md-button>

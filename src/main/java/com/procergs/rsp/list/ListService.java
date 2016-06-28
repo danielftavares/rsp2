@@ -20,6 +20,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import com.procergs.rsp.list.ed.ListED;
+import com.procergs.rsp.list.ed.ListResultED;
 import com.procergs.rsp.user.ed.FollowED;
 import com.procergs.rsp.user.ed.UserEd;
 import com.procergs.rsp.user.ed.UserRequestED;
@@ -73,8 +74,13 @@ public class ListService {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Path("/{idlist}")
-	public ListED find(@PathParam("idlist") Long idlist){
-		return listBD.find(idlist);
+	public ListResultED find(@PathParam("idlist") Long idlist){
+		ListED listED = listBD.find(idlist);
+		ListResultED listResultED = new ListResultED();
+		listResultED.setName(listED.getName());
+		listResultED.setIdList(listED.getIdList());
+		listResultED.setFollowers(listBD.listFollowers(idlist));
+		return listResultED;
 	}
 	
 	

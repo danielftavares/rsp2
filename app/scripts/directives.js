@@ -217,15 +217,16 @@ function followBtn(userService){
                                 $scope.acao = "Editar perfil";
                                 $scope.btnFollowClick = fEditarPerfil;
                             } else {
-                                userService.amIFollowing(user.idUsuario, function (r){
-                                                                                if(r) {
-                                                                                    $scope.acao = "Deixar de Seguir";
-                                                                                    $scope.btnFollowClick = fUnfollow;
-                                                                                } else {
-                                                                                    $scope.acao = "Seguir";
-                                                                                    $scope.btnFollowClick = fFollow;
-                                                                                }
-                                                                            });
+                                userService.amIFollowing(user.idUsuario,
+                                                    function (r){
+                                                        if(r) {
+                                                            $scope.acao = "Deixar de Seguir";
+                                                            $scope.btnFollowClick = fUnfollow;
+                                                        } else {
+                                                            $scope.acao = "Seguir";
+                                                            $scope.btnFollowClick = fFollow;
+                                                        }
+                                                    });
                             }
                     }
 
@@ -265,10 +266,60 @@ function followBtn(userService){
     };
 }
 
+
+
+function followListBtn(userService){
+    return {
+        controller: ['$scope', '$location', function($scope, $location){
+            var fLoadStatus = function (list){
+                userService.amIFollowingList(list.idList,
+                function (r){
+                    if(r) {
+                        $scope.acao = "Deixar de Seguir";
+                        $scope.btnFollowClick = fUnfollow;
+                    } else {
+                        $scope.acao = "Seguir";
+                        $scope.btnFollowClick = fFollow;
+                    }
+                });
+            }
+
+            var fFollow = function(list){
+                userService.followList(list, function(){
+                    fLoadStatus(list);
+                });
+            }
+            var fUnfollow = function(list){
+                userService.unfollowList(list, function(){
+                    fLoadStatus(list);
+                });
+            }
+
+            $scope.btnFollowClick = function(u){
+                console.log("Carregando")
+            }
+
+            $scope.acao = "Seguir";
+
+            $scope.$watch('list', function (user) {
+                if (user) {
+                    fLoadStatus(user);
+                }
+            });
+
+        }],
+        scope: {
+          list: '='
+        },
+        template: '<md-button ng-click="btnFollowClick(list)" class="md-raised md-primary">{{acao}}</md-button>'
+    };
+}
+
 angular.module('rspApp')
 	.directive('postArea', postArea)
 	.directive('mainArea', mainArea)
 	.directive('timeLine', timeLine)
 	.directive('timeLineItem', timeLineItem)
 	.directive('followBtn', ['userService', followBtn])
+	.directive('followListBtn', ['userService', followListBtn])
 	;

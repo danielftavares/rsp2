@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "PROFILE_FIELD")
+@Table(name = "RSP_PROFILE_FIELD")
 public class ProfileField {
 	
 	@Id

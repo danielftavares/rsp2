@@ -11,6 +11,8 @@
                 <input ng-model="mapProfileValue[field.idProfileField]" >
             </md-input-container>
 
+            <lf-ng-md-file-input lf-files='user.files' accept="image/*"> </lf-ng-md-file-input>
+
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                 <md-button ng-click="btnSalvarClick()" class="md-raised md-primary">Salvar</md-button>
             </section>

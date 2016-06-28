@@ -1,10 +1,19 @@
 <div main-area layout="row" layout-fill >
     <div layout="row" layout-xs="column" layout-fill>
         <div flex="initial">
-            <h1>{{name}}</h1>
+            <h2>{{list.name}}</h2>
+            <div follow-list-btn list="list"></div>
+            <md-list>
+                    <md-list-item ng-repeat="u in list.followers" ng-href="#/user/{{u.idUsuario}}/{{u.nome}}" >
+                        <img class="md-avatar" ng-src="apiv1/image/{{ u.profileImage.idImage }}.{{  u.profileImage.type }}"/>
+                        <span>{{ u.nome }}</span>
+                    </md-list-item>
+                </md-button>
+            </md-list>
+
         </div>
         <div flex>
-            <div post-area idlist="idlist"></div>
+            <div post-area idlist="list.idList"></div>
             <div time-line fnextpage="listPosts" ></div>
         </div>
     </div>

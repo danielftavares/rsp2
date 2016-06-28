@@ -1,15 +1,17 @@
-package com.procergs.rsp.post.ed;
+package com.procergs.rsp.list.ed;
 
-import javax.persistence.Column;
+import com.procergs.rsp.user.ed.UserEd;
+
+import java.util.List;
 
 /**
- * Created by daniel on 13/03/16.
+ * Created by daniel on 27/06/16.
  */
 public class ListResultED {
 
     private Long idList;
-
     private String name;
+    private List<UserEd> followers;
 
     public Long getIdList() {
         return idList;
@@ -25,5 +27,13 @@ public class ListResultED {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<UserEd> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<UserEd> followers) {
+        this.followers = followers;
     }
 }

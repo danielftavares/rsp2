@@ -2,6 +2,7 @@ package com.procergs.rsp.post.ed;
 
 import com.procergs.rsp.image.ed.ImageED;
 import com.procergs.rsp.list.ed.ListED;
+import com.procergs.rsp.list.ed.ListResultED;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

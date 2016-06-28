@@ -289,8 +289,31 @@ function UserService($http, localStorageService, $httpParamSerializer){
                           },function(err){
                               // do sometingh
                           });
-      }
+    }
 
+    userService.listfollowing = [];
+
+    userService.amIFollowingList = function(idList, returncallback){
+        if(userService.listfollowing.length == 0){
+          userService.getListsFollowed(function(l){
+            userService.listfollowing = l;
+            userService._amIFollowingListV(idList, returncallback)
+          });
+        } else {
+          userService._amIFollowingV(idList, returncallback);
+        }
+    }
+
+    userService._amIFollowingListV = function(idList, returncallback){
+        var f = false;
+        for (var i = userService.listfollowing.length - 1; i >= 0; i--) {
+          var l = userService.listfollowing[i];
+          if(l.idList == idList){
+            f = true;
+          }
+        }
+        returncallback(f);
+    }
 
     userService.getListsFollowed = function(callback){
         $http.get('/rsp/apiv1/list', {
@@ -303,6 +326,49 @@ function UserService($http, localStorageService, $httpParamSerializer){
             },function(err){
                 // do sometingh
             });
+    }
+
+    userService.followList = function(listp, callback){
+        $http.get('/rsp/apiv1/list/f/'+listp.idList, {
+            type: 'json',
+            headers: {
+              'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
+            }
+        }).then(function(result){
+            userService.listfollowing = [];
+            callback(result.data);
+        },function(err){
+            // do sometingh
+        });
+    }
+
+    userService.unfollowList = function(listp, callback){
+        $http.get('/rsp/apiv1/list/uf/'+listp.idList, {
+          type: 'json',
+          headers: {
+            'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
+          }
+        }).then(function(result){
+          userService.listfollowing = [];
+          callback(result.data);
+        },function(err){
+          // do sometingh
+        });
+    }
+
+
+    userService.findListById = function(idList, callback){
+        $http.get('/rsp/apiv1/list/'+idList, {
+          type: 'json',
+          headers: {
+            'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
+          }
+        }).then(function(result){
+          userService.listfollowing = [];
+          callback(result.data);
+        },function(err){
+          // do sometingh
+        });
     }
 
     userService.isUserLogged();
