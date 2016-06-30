@@ -1,15 +1,15 @@
 <md-card>
 	<md-card-title>
 		<md-input-container class="md-block">
-			<label>Biography</label>
-      <textarea 
-      	ng-model="txtPost"
-      	md-maxlength="150" 
-      	rows="5" 
-      	md-select-on-focus 
-      	ng-focus="focusPostArea()" 
-      	ng-blur="focusLostPostArea()" ></textarea>
-    </md-input-container>
+			<label>O que esta acontecendo?</label>
+			<textarea
+				ng-model="txtPost"
+				rows="5"
+				md-select-on-focus
+				ng-focus="focusPostArea()"
+				ng-blur="focusLostPostArea()" >
+			</textarea>
+		</md-input-container>
   </md-card-title>
 
 	<md-card-actions layout="row"  ng-show="editing" >

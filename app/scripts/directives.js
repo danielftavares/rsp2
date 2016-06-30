@@ -48,12 +48,12 @@ function postArea(){
 
 function mainArea(){
 	return {
-	  controller: ['$scope', '$mdSidenav', '$timeout', 'userService', function($scope, $mdSidenav, $timeout, userService){
+	  controller: ['$scope', '$mdSidenav', '$timeout', 'userService', 'userDataService', function($scope, $mdSidenav, $timeout, userService, userDataService){
             $scope.openMenu = function(){
                 console.log("close");
                 $timeout(function() { $mdSidenav('left').open(); });
             }
-            $scope.user = userService.getLoggedUser().userEd;
+            $scope.user = userDataService.getLoggedUser().userEd;
             console.log($scope.user);
             $scope.listas = [];
             userService.getListsFollowed(function(listas){
@@ -148,16 +148,16 @@ function timeLine(){
 
 function timeLineItem(){
 	return {
-	    controller: ['$scope', '$timeout', 'userService', function($scope, $timeout, userService){
+	    controller: ['$scope', '$timeout', 'userService', 'userDataService', function($scope, $timeout, userService, userDataService){
 	        $scope.respondendo = false;
 	        $scope.isMine = false;
             $scope.iLiked = false;
 
             var carregapost = function(){
-                $scope.isMine = userService.getLoggedUser().userEd.idUsuario == $scope.post.idUser;
+                $scope.isMine = userDataService.getLoggedUser().userEd.idUsuario == $scope.post.idUser;
                 $scope.iLiked = false;
                 for (var i = 0; i < $scope.post.likes.length; i++) {
-                    if($scope.post.likes[i].idUser == userService.getLoggedUser().userEd.idUsuario){
+                    if($scope.post.likes[i].idUser == userDataService.getLoggedUser().userEd.idUsuario){
                         $scope.iLiked = true;
                         break;
                     }

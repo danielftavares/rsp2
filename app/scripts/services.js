@@ -1,24 +1,5 @@
-function UserService($http, localStorageService, $httpParamSerializer){
+function UserService($http, userDataService, $httpParamSerializer){
     var userService = this;
-
-    userService.isUserLogged = function(){
-        if (userService.loggedUser != null){
-            return true;
-        }
-        if(localStorageService.get("lu") != null){
-            userService.loggedUser = localStorageService.get("lu");
-            return true;
-        }
-
-        return false;
-    };
-
-    userService.getLoggedUser = function(){
-        return userService.loggedUser;
-    };
-    userService.isMe = function(user){
-        return userService.getLoggedUser().userEd.idUsuario == user.idUsuario;
-    };
 
     userService.login = function(username, password, callback){
         $http(
@@ -28,11 +9,12 @@ function UserService($http, localStorageService, $httpParamSerializer){
                 data    : {"username": username, "password": password }
             }
         ).then(function successLogin(response) {
-            userService.loggedUser = response.data;
-            localStorageService.set("lu", response.data);
-            callback(response.data);
+            if (response){
+                userDataService.setUserLogged(response.data);
+                callback(response.data);
+            }
         }, function errorLogin(response) {
-            // TODO
+
         });
     };
 
@@ -42,13 +24,10 @@ function UserService($http, localStorageService, $httpParamSerializer){
                 method  : 'GET',
                 url: '/rsp/apiv1/post',
                 params: info,
-                headers: {
-                  'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
-                },
                 responseType: "json"
             }
         ).then(function success(response) {
-                     callback(response.data);
+            callback(response.data);
          }, function error(response) {
              // TODO
          });
@@ -57,7 +36,6 @@ function UserService($http, localStorageService, $httpParamSerializer){
     userService.post = function(formData, callback){
         $http.post('/rsp/apiv1/post', formData, {
             headers: {
-              'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token,
               'Content-Type': undefined
             },
             transformRequest: angular.identity
@@ -73,9 +51,6 @@ function UserService($http, localStorageService, $httpParamSerializer){
                 {
                     method  : 'GET',
                     url: '/rsp/apiv1/user/'+idUser,
-                    headers: {
-                      'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
-                    },
                     responseType: "json"
                 }
             ).then(function success(response) {
@@ -90,9 +65,6 @@ function UserService($http, localStorageService, $httpParamSerializer){
             {
                 method  : 'GET',
                 url: '/rsp/apiv1/profile/'+iduser,
-                headers: {
-                  'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
-                },
                 responseType: "json"
             }
         ).then(function success(response) {
@@ -108,10 +80,7 @@ function UserService($http, localStorageService, $httpParamSerializer){
             {
                 method  : 'GET',
                 url: '/rsp/apiv1/user/f/'+user.idUsuario,
-                method: 'GET',
-                headers: {
-                    'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
-                }
+                method: 'GET'
             } ).then(function success(response) {
                 userService.following = [];
                 callback(response.data);
@@ -125,10 +94,7 @@ function UserService($http, localStorageService, $httpParamSerializer){
             {
                 method  : 'GET',
                 url: '/rsp/apiv1/user/uf/'+user.idUsuario,
-                method: 'GET',
-                headers: {
-                    'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
-                }
+                method: 'GET'
             } ).then(function success(response) {
                 userService.following = [];
                 callback(response.data);
@@ -140,7 +106,7 @@ function UserService($http, localStorageService, $httpParamSerializer){
     userService.following = [];
 
     userService.getFollowingAndFollowers = function(callback){
-        userService.listFollowingAndFollowers(userService.loggedUser.userEd.idUsuario, function(l){ userService.following = l.following; callback(l) }, this);
+        userService.listFollowingAndFollowers(userDataService.getLoggedUser().userEd.idUsuario, function(l){ userService.following = l.following; callback(l) }, this);
     }
 
     userService.listFollowingAndFollowers = function(idUser, callback){
@@ -148,10 +114,7 @@ function UserService($http, localStorageService, $httpParamSerializer){
             {
                 method  : 'GET',
                 url: '/rsp/apiv1/user/lf/'+idUser,
-                responseType: 'json',
-                headers: {
-                  'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
-                }
+                responseType: 'json'
             }
            ).then(function success(response) {
                        callback(response.data);
@@ -162,7 +125,7 @@ function UserService($http, localStorageService, $httpParamSerializer){
 
     userService.amIFollowing = function(idUser, callbackf){
         if(userService.following.length == 0){
-          userService.listFollowingAndFollowers(userService.loggedUser.userEd.idUsuario,
+          userService.listFollowingAndFollowers(userDataService.getLoggedUser().userEd.idUsuario,
             function(l){
                 userService.following = l.following;
                 userService._amIFollowing(idUser, callbackf)
@@ -191,10 +154,7 @@ function UserService($http, localStorageService, $httpParamSerializer){
                     {
                         method  : 'GET',
                         url: '/rsp/apiv1/profile/f',
-                        responseType: 'json',
-                        headers: {
-                          'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
-                        }
+                        responseType: 'json'
                     }
                    ).then(function success(response) {
                        userService.fields = response.data;
@@ -211,7 +171,6 @@ function UserService($http, localStorageService, $httpParamSerializer){
 
             $http.post('/rsp/apiv1/user/profile', profileForm, {
                 headers: {
-                  'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token,
                   'Content-Type': undefined
                 },
                 transformRequest: angular.identity
@@ -226,18 +185,10 @@ function UserService($http, localStorageService, $httpParamSerializer){
 
 
 
-
-
-
-
-
-
-
     userService.like = function(post, callback) {
 
         $http.post('/rsp/apiv1/post/l/'+post.idPost, null, {
                       headers: {
-                        'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token,
                         'Content-Type': undefined
                       },
                       transformRequest: angular.identity
@@ -251,7 +202,6 @@ function UserService($http, localStorageService, $httpParamSerializer){
     userService.dislike = function(post, callback) {
           $http.post('/rsp/apiv1/post/dl/'+post.idPost, null, {
                         headers: {
-                          'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token,
                           'Content-Type': undefined
                         },
                         transformRequest: angular.identity
@@ -265,7 +215,6 @@ function UserService($http, localStorageService, $httpParamSerializer){
     userService.deletePost = function(post, callback) {
             $http.post('/rsp/apiv1/post/d/'+post.idPost, null, {
                           headers: {
-                            'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token,
                             'Content-Type': undefined
                           },
                           transformRequest: angular.identity
@@ -280,7 +229,6 @@ function UserService($http, localStorageService, $httpParamSerializer){
     userService.insertList = function(listname, callback) {
                 $http.post('/rsp/apiv1/list', $httpParamSerializer({ln: listname }), {
                               headers: {
-                                'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token,
                                 "Content-Type": "application/x-www-form-urlencoded;"
                               },
                               responseType: "json"
@@ -317,10 +265,7 @@ function UserService($http, localStorageService, $httpParamSerializer){
 
     userService.getListsFollowed = function(callback){
         $http.get('/rsp/apiv1/list', {
-              type: 'json',
-              headers: {
-            	  'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
-              }
+              type: 'json'
             }).then(function(result){
                 callback(result.data);
             },function(err){
@@ -330,10 +275,7 @@ function UserService($http, localStorageService, $httpParamSerializer){
 
     userService.followList = function(listp, callback){
         $http.get('/rsp/apiv1/list/f/'+listp.idList, {
-            type: 'json',
-            headers: {
-              'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
-            }
+            type: 'json'
         }).then(function(result){
             userService.listfollowing = [];
             callback(result.data);
@@ -344,10 +286,7 @@ function UserService($http, localStorageService, $httpParamSerializer){
 
     userService.unfollowList = function(listp, callback){
         $http.get('/rsp/apiv1/list/uf/'+listp.idList, {
-          type: 'json',
-          headers: {
-            'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
-          }
+          type: 'json'
         }).then(function(result){
           userService.listfollowing = [];
           callback(result.data);
@@ -359,10 +298,7 @@ function UserService($http, localStorageService, $httpParamSerializer){
 
     userService.findListById = function(idList, callback){
         $http.get('/rsp/apiv1/list/'+idList, {
-          type: 'json',
-          headers: {
-            'Authorization': 'RSPUT '+ userService.loggedUser.userEd.idUsuario + ':' + userService.loggedUser.token
-          }
+          type: 'json'
         }).then(function(result){
           userService.listfollowing = [];
           callback(result.data);
@@ -371,9 +307,57 @@ function UserService($http, localStorageService, $httpParamSerializer){
         });
     }
 
-    userService.isUserLogged();
+    userDataService.isUserLogged();
     return userService;
 }
 
+
+function UserDataService(localStorageService){
+    var userDataService = this;
+    userDataService.getLoggedUser = function(){
+        return userDataService.loggedUser;
+    };
+
+    userDataService.isUserLogged = function(){
+        if (userDataService.loggedUser != null){
+            return true;
+        }
+        if(localStorageService.get("lu") != null){
+            userDataService.loggedUser = localStorageService.get("lu");
+            return true;
+        }
+
+        return false;
+    };
+
+    userDataService.setUserLogged = function(user){
+        userDataService.loggedUser = user;
+        localStorageService.set("lu", user);
+    };
+
+    userDataService.getLoggedUser = function(){
+        return userDataService.loggedUser;
+    };
+    userDataService.isMe = function(user){
+        return userDataService.getLoggedUser().userEd.idUsuario == user.idUsuario;
+    };
+    userDataService.isUserLogged();
+    return userDataService;
+}
+
+function UserMsgService($mdToast){
+    var userMsgService = this;
+    userMsgService.showToast = function(msg){
+          $mdToast.show(
+            $mdToast.simple()
+              .textContent(msg)
+              .hideDelay(3000)
+          );
+    }
+    return userMsgService;
+}
+
 angular.module('rspApp')
-	.service('userService', ['$http', 'localStorageService','$httpParamSerializer', UserService])
+	.factory('userDataService', ['localStorageService', UserDataService])
+	.service('userService', ['$http', 'userDataService','$httpParamSerializer', UserService])
+	.service('userMsgService', ['$mdToast', UserMsgService]);

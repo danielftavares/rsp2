@@ -4,7 +4,9 @@ import com.procergs.rsp.image.ed.ImageED;
 import com.procergs.rsp.list.ed.ListED;
 import com.procergs.rsp.list.ed.ListResultED;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,11 +22,11 @@ public class PostResultEDBuilder {
 
 
 
-    public PostResultEDBuilder(PostED postED, Stream<PostResultED> postResultEDStream, Collection<ImageED> imageEDs, Collection<LikeED> likeEDs) {
+    public PostResultEDBuilder(PostED postED, Collection<PostResultED> replies, Collection<ImageED> imageEDs, Collection<LikeED> likeEDs) {
         this.postED = postED;
         this.likes = likeEDs;
         this.images = imageEDs;
-        this.replies = postResultEDStream.collect(Collectors.toList());
+        this.replies = replies;
     }
 
     public PostResultED build(){
@@ -44,11 +46,25 @@ public class PostResultEDBuilder {
         }
 
         if(postED.getLists() != null && !postED.getLists().isEmpty()){
-            resultED.setLists(postED.getLists().stream().map(listED -> buildListResultED(listED)).collect(Collectors.toList()));
+            Collection<ListResultED> listas = new ArrayList<>();
+            for (ListED listED:postED.getLists()) {
+                listas.add(buildListResultED(listED));
+            }
+            resultED.setLists(listas);
         }
 
-        resultED.setLikes(likes.stream().map(likeED -> buildLikeResultED(likeED)).collect(Collectors.toList()));
-        resultED.setImages (images.stream().map(imageED -> buildImageResultED(imageED)).collect(Collectors.toList()));
+        List<LikeResultED> likesResult = new ArrayList<>();
+        for (LikeED like : likes) {
+            likesResult.add(buildLikeResultED(like));
+        }
+
+        List<ImageResultED> imageResult = new ArrayList<>();
+        for (ImageED imageED : images) {
+            imageResult.add(buildImageResultED(imageED));
+        }
+
+        resultED.setLikes(likesResult);
+        resultED.setImages(imageResult);
 
         resultED.setOpenGraphED(postED.getOpenGraphED());
         return resultED;

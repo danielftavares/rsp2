@@ -5,7 +5,7 @@
  
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
  
     <!-- Page title set in pageTitle directive -->
     <title page-title></title>
@@ -31,13 +31,12 @@
  
 <!-- ControllerAs syntax -->
 <!-- Main controller with serveral data used in Inspinia theme on diferent view -->
-<body layout="row" ng-cloak>
+<body layout="row" ng-cloak ng-controller="RspCtrl" >
 
+<md-progress-linear ng-show="rsp_loadinggg" md-mode="indeterminate" class="rsp_loading" ></md-progress-linear>
 <div ng-view layout="row" layout-fill></div>
 
 <!-- build:js(.) scripts/vendor.js -->
- 
-
 
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-route/angular-route.min.js"></script>

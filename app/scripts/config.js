@@ -64,3 +64,32 @@ angular.module('rspApp')
     .config(['localStorageServiceProvider', function (localStorageServiceProvider) {
       localStorageServiceProvider.setPrefix('rsp');
     }]);
+
+angular.module('rspApp')
+    .config(['$httpProvider', function($httpProvider) {
+
+        var interceptor = [
+          '$q',
+          '$rootScope',
+          'userDataService',
+          function($q, $rootScope, userDataService) {
+
+            var service = {
+              // run this function before making requests
+              'request': function(config) {
+                  if(userDataService.isUserLogged()){
+                    config.headers['Authorization'] = 'RSPUT '+ userDataService.getLoggedUser().userEd.idUsuario + ':' + userDataService.getLoggedUser().token;
+                  }
+                  return config;
+              },
+              'responseError': function(response){
+                $rootScope.$broadcast( 'rspHttpError', response);
+              }
+            };
+
+            return service;
+          }
+        ];
+
+        $httpProvider.interceptors.push(interceptor);
+    }]);

@@ -192,13 +192,26 @@ public class PostService {
 			list = postBD.list(user, idLastPost, idFirstPost);
 		}
 
+		Collection<PostResultED> listRetorno = new ArrayList<>();
+		for (PostED postED: list) {
+			listRetorno.add(populatePostResult(postED));
+		}
 
-		return list.stream().map(postED -> populatePostResult(postED)).collect(Collectors.toList());
+		return listRetorno;
 	}
 
 	private PostResultED populatePostResult(PostED postED) {
+
+		Collection<PostED> replies = postBD.listReplies(postED);
+		List<PostResultED> repliesResult = new ArrayList<>();
+
+		for (PostED replieEd:
+				replies) {
+			repliesResult.add(populatePostResult(replieEd));
+		}
+
 		PostResultEDBuilder builder = new PostResultEDBuilder(postED,
-															postBD.listReplies(postED).stream().map(postEDChild -> populatePostResult(postEDChild) ),
+															repliesResult,
 															imageService.listImages(postED),
 															postBD.listLikes(postED));
 		return builder.build();
@@ -251,15 +264,15 @@ public class PostService {
 		if(postED.getUserEd().equals(user)){
 			deletePost(postED);
 		}
-
-
-
 	}
+
 	private void deletePost(PostED postED){
 		Collection<PostED> replies = postBD.listReplies(postED);
-		replies.forEach(postED1 -> deletePost(postED1));
-		postBD.delete(postED);
+		for (PostED replieED: replies) {
+			deletePost(replieED);
+		}
 
+		postBD.delete(postED);
 	}
 
     @POST

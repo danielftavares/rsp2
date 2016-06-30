@@ -1,6 +1,24 @@
-function LoginCtrl ($scope, $location, userService){
+function RspCtrl($scope, $rootScope, $location, userMsgService ){
 
-    if (userService.isUserLogged()){
+    $rootScope.$on( 'rspHttpError', function( event, response ) {
+        console.log($location);
+        console.log(response);
+
+        if(response.status == 401){
+            if($location.path() == '/login'){
+                userMsgService.showToast("Senha incorreta!");
+            } else {
+                userMsgService.showToast("Login expirador!");
+            }
+        } else {
+            userMsgService.showToast( "Erro!" );
+        }
+    })
+}
+
+function LoginCtrl ($scope, $location, userService, userDataService){
+
+    if (userDataService.isUserLogged()){
         $location.path( '/main' );
     }
 
@@ -38,17 +56,17 @@ function UserCtrl ($scope, $routeParams, userService){
 
 }
 
-function UserEditCtrl($scope, userService) {
+function UserEditCtrl($scope, userService, userDataService) {
     $scope.mapProfileValue = {};
 
-    userService.findUserById(userService.getLoggedUser().userEd.idUsuario, function(user){
+    userService.findUserById(userDataService.getLoggedUser().userEd.idUsuario, function(user){
         $scope.user = user;
         $scope.user.files  = [];
     });
 
     userService.getProfileFields(function (fields){
         $scope.fields = fields;
-        userService.getFieldsValue(userService.getLoggedUser().userEd.idUsuario, function(userFields){
+        userService.getFieldsValue(userDataService.getLoggedUser().userEd.idUsuario, function(userFields){
             $scope.userFields = userFields;
             angular.forEach(userFields, function(userfield){
                 $scope.mapProfileValue[userfield.profileField.idProfileField] = userfield.value;
@@ -102,9 +120,10 @@ function ListCtrl ($scope, $routeParams, userService){
 
 
 angular.module('rspApp')
-	.controller('LoginCtrl', ['$scope', '$location', 'userService', LoginCtrl])
+    .controller('RspCtrl', ['$scope', '$rootScope', '$location', 'userMsgService', RspCtrl])
+	.controller('LoginCtrl', ['$scope', '$location', 'userService', 'userDataService', LoginCtrl])
 	.controller('MainCtrl', ['$scope', 'userService', MainCtrl])
 	.controller('UserCtrl', ['$scope', '$routeParams', 'userService', UserCtrl])
-	.controller('UserEditCtrl', ['$scope', 'userService', UserEditCtrl])
+	.controller('UserEditCtrl', ['$scope', 'userService', 'userDataService', UserEditCtrl])
 	.controller('ListNewCtrl', ['$scope', 'userService', ListNewCtrl])
 	.controller('ListCtrl', ['$scope', '$routeParams', 'userService', ListCtrl]);
