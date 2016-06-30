@@ -6,7 +6,7 @@
    	<persistence-unit name="RSP_PU" transaction-type="JTA">
 
         <!-- Não se esqueça de informar ao persistence.xml qual datasource você estará usando, para isso siga o exemplo abaixo: -->
-		<jta-data-source>java:jboss/datasources/rsp-ds</jta-data-source>
+		<jta-data-source>java:jboss/datasources/RspDS</jta-data-source>
         <!-- Obs.: Caso seja necessário você rodar uma classe main para popular o banco de dados, remova a tag acima. -->
 
 		<properties>

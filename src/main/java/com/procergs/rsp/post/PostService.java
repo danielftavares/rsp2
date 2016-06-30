@@ -3,9 +3,7 @@ package com.procergs.rsp.post;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,8 +12,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -31,18 +27,6 @@ import com.procergs.rsp.opengraph.OpenGraph;
 import com.procergs.rsp.opengraph.OpenGraphService;
 import com.procergs.rsp.opengraph.ed.OpenGraphED;
 import com.procergs.rsp.post.ed.*;
-import org.apache.commons.io.IOUtils;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.pt.PortugueseAnalyzer;
-import org.apache.lucene.document.*;
-import org.apache.lucene.index.*;
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.*;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.BytesRefBuilder;
-import org.apache.lucene.util.NumericUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
@@ -83,7 +67,6 @@ public class PostService {
 
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON })
-	@Transactional
 	public boolean post(MultipartFormDataInput input, @Context HttpServletRequest httpRequest) {
 
 		try {

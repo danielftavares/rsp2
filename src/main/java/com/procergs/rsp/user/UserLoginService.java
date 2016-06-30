@@ -1,7 +1,6 @@
 package com.procergs.rsp.user;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Base64;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 import java.util.UUID;
@@ -13,21 +12,11 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 
 import com.procergs.rsp.user.ed.UserEd;
 import com.procergs.rsp.user.ed.UserLoginED;
 import com.procergs.rsp.user.ed.UserRequestED;
+import org.apache.commons.codec.binary.Base64;
 
 @Stateless
 @Named
@@ -76,7 +65,7 @@ public class UserLoginService {
 
 	private boolean autenticarBasic(String encodedUserPassword, ServletRequest request) {
 		try {
-			byte[] decodedBytes = Base64.getDecoder().decode(encodedUserPassword);
+			byte[] decodedBytes = Base64.decodeBase64(encodedUserPassword);
 			String usernameAndPassword = new String(decodedBytes, "UTF-8");
 		
 			final StringTokenizer tokenizer = new StringTokenizer(usernameAndPassword, ":");
