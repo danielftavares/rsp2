@@ -32,6 +32,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.procergs.rsp.user.ed.*;
+import com.procergs.rsp.util.Propriedades;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
@@ -83,7 +84,7 @@ public class UserService {
 				// autentica por ldap
 				Hashtable env = new Hashtable();
 				env.put(javax.naming.Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-				env.put(javax.naming.Context.PROVIDER_URL, System.getProperty("rsp.ldap"));
+				env.put(javax.naming.Context.PROVIDER_URL, Propriedades.getInstance("DOL").getValor("RSP.LDAP"));
 				LdapContext ctx = new InitialLdapContext(env, null);
 
 				SearchControls ctls = new SearchControls();
@@ -106,7 +107,7 @@ public class UserService {
 				}
 				env = new Hashtable();
 				env.put(javax.naming.Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-				env.put(javax.naming.Context.PROVIDER_URL, System.getProperty("rsp.ldap"));
+				env.put(javax.naming.Context.PROVIDER_URL, Propriedades.getInstance("DOL").getValor("RSP.LDAP"));
 				env.put(javax.naming.Context.SECURITY_AUTHENTICATION, "simple");
 		//
 //				// Authenticate as S. User and password "mysecret"

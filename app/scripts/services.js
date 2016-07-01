@@ -22,7 +22,7 @@ function UserService($http, userDataService, $httpParamSerializer){
         $http(
             {
                 method  : 'GET',
-                url: '/rsp/apiv1/post',
+                url: 'apiv1/post',
                 params: info,
                 responseType: "json"
             }
@@ -34,7 +34,7 @@ function UserService($http, userDataService, $httpParamSerializer){
     };
 
     userService.post = function(formData, callback){
-        $http.post('/rsp/apiv1/post', formData, {
+        $http.post('apiv1/post', formData, {
             headers: {
               'Content-Type': undefined
             },
@@ -50,7 +50,7 @@ function UserService($http, userDataService, $httpParamSerializer){
             $http(
                 {
                     method  : 'GET',
-                    url: '/rsp/apiv1/user/'+idUser,
+                    url: 'apiv1/user/'+idUser,
                     responseType: "json"
                 }
             ).then(function success(response) {
@@ -64,7 +64,7 @@ function UserService($http, userDataService, $httpParamSerializer){
         $http(
             {
                 method  : 'GET',
-                url: '/rsp/apiv1/profile/'+iduser,
+                url: 'apiv1/profile/'+iduser,
                 responseType: "json"
             }
         ).then(function success(response) {
@@ -79,7 +79,7 @@ function UserService($http, userDataService, $httpParamSerializer){
         $http(
             {
                 method  : 'GET',
-                url: '/rsp/apiv1/user/f/'+user.idUsuario,
+                url: 'apiv1/user/f/'+user.idUsuario,
                 method: 'GET'
             } ).then(function success(response) {
                 userService.following = [];
@@ -93,7 +93,7 @@ function UserService($http, userDataService, $httpParamSerializer){
        $http(
             {
                 method  : 'GET',
-                url: '/rsp/apiv1/user/uf/'+user.idUsuario,
+                url: 'apiv1/user/uf/'+user.idUsuario,
                 method: 'GET'
             } ).then(function success(response) {
                 userService.following = [];
@@ -113,7 +113,7 @@ function UserService($http, userDataService, $httpParamSerializer){
         $http(
             {
                 method  : 'GET',
-                url: '/rsp/apiv1/user/lf/'+idUser,
+                url: 'apiv1/user/lf/'+idUser,
                 responseType: 'json'
             }
            ).then(function success(response) {
@@ -153,7 +153,7 @@ function UserService($http, userDataService, $httpParamSerializer){
     	        $http(
                     {
                         method  : 'GET',
-                        url: '/rsp/apiv1/profile/f',
+                        url: 'apiv1/profile/f',
                         responseType: 'json'
                     }
                    ).then(function success(response) {
@@ -169,7 +169,7 @@ function UserService($http, userDataService, $httpParamSerializer){
 
     userService.updateProfile = function(profileForm, callback){
 
-            $http.post('/rsp/apiv1/user/profile', profileForm, {
+            $http.post('apiv1/user/profile', profileForm, {
                 headers: {
                   'Content-Type': undefined
                 },
@@ -187,7 +187,7 @@ function UserService($http, userDataService, $httpParamSerializer){
 
     userService.like = function(post, callback) {
 
-        $http.post('/rsp/apiv1/post/l/'+post.idPost, null, {
+        $http.post('apiv1/post/l/'+post.idPost, null, {
                       headers: {
                         'Content-Type': undefined
                       },
@@ -200,7 +200,7 @@ function UserService($http, userDataService, $httpParamSerializer){
     }
 
     userService.dislike = function(post, callback) {
-          $http.post('/rsp/apiv1/post/dl/'+post.idPost, null, {
+          $http.post('apiv1/post/dl/'+post.idPost, null, {
                         headers: {
                           'Content-Type': undefined
                         },
@@ -213,7 +213,7 @@ function UserService($http, userDataService, $httpParamSerializer){
     }
 
     userService.deletePost = function(post, callback) {
-            $http.post('/rsp/apiv1/post/d/'+post.idPost, null, {
+            $http.post('apiv1/post/d/'+post.idPost, null, {
                           headers: {
                             'Content-Type': undefined
                           },
@@ -227,7 +227,7 @@ function UserService($http, userDataService, $httpParamSerializer){
 
 
     userService.insertList = function(listname, callback) {
-                $http.post('/rsp/apiv1/list', $httpParamSerializer({ln: listname }), {
+                $http.post('apiv1/list', $httpParamSerializer({ln: listname }), {
                               headers: {
                                 "Content-Type": "application/x-www-form-urlencoded;"
                               },
@@ -264,7 +264,7 @@ function UserService($http, userDataService, $httpParamSerializer){
     }
 
     userService.getListsFollowed = function(callback){
-        $http.get('/rsp/apiv1/list', {
+        $http.get('apiv1/list', {
               type: 'json'
             }).then(function(result){
                 callback(result.data);
@@ -274,7 +274,7 @@ function UserService($http, userDataService, $httpParamSerializer){
     }
 
     userService.followList = function(listp, callback){
-        $http.get('/rsp/apiv1/list/f/'+listp.idList, {
+        $http.get('apiv1/list/f/'+listp.idList, {
             type: 'json'
         }).then(function(result){
             userService.listfollowing = [];
@@ -285,7 +285,7 @@ function UserService($http, userDataService, $httpParamSerializer){
     }
 
     userService.unfollowList = function(listp, callback){
-        $http.get('/rsp/apiv1/list/uf/'+listp.idList, {
+        $http.get('apiv1/list/uf/'+listp.idList, {
           type: 'json'
         }).then(function(result){
           userService.listfollowing = [];
@@ -297,7 +297,7 @@ function UserService($http, userDataService, $httpParamSerializer){
 
 
     userService.findListById = function(idList, callback){
-        $http.get('/rsp/apiv1/list/'+idList, {
+        $http.get('apiv1/list/'+idList, {
           type: 'json'
         }).then(function(result){
           userService.listfollowing = [];

@@ -83,7 +83,7 @@ function timeLine(){
                 var data = {};
                 var firstPost = null;
                 console.log(loadMore)
-                if(loadMore){
+                if(loadMore && $scope.posts.length  > 0){
                     var lastPost = $scope.posts[$scope.posts.length - 1].idPost;
                     data.lp = lastPost;
                 }
