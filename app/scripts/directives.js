@@ -67,6 +67,21 @@ function mainArea(){
                 $scope.seguidores = follow.followers;
             });
 
+
+            //pesquisa
+            $scope.searchItens = [];
+            $scope.searchTextChange = function(text){
+                console.log(text);
+                userService.listaUsuarios(text, function(users){
+                    $scope.searchItens = users;
+                })
+
+            }
+
+            $scope.selectedItemChange = function(i){
+                console.log(i);
+            }
+
       }],
 	  transclude: true,
       templateUrl: 'templates/main-area.html'

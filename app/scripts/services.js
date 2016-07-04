@@ -18,6 +18,21 @@ function UserService($http, userDataService, $httpParamSerializer){
         });
     };
 
+
+    userService.listaUsuarios  = function(text, callback) {
+            $http(
+                {
+                    method  : 'GET',
+                    url: '/rsp/apiv1/user/l',
+                    params:  { un: text },
+                    responseType: "json"
+                }
+            ).then(function success(response) {
+                callback(response.data);
+            });
+
+    }
+
     userService.listPosts = function(info, callback){
         $http(
             {

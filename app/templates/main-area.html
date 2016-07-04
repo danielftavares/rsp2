@@ -60,22 +60,19 @@
                 <span flex><img src="images/logorsp.png" /></span>
 
                 <md-autocomplete
-                        ng-disabled="ctrl.isDisabled"
-                        md-no-cache="ctrl.noCache"
-                        md-selected-item="ctrl.selectedItem"
-                        md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-                        md-search-text="ctrl.searchText"
-                        md-selected-item-change="ctrl.selectedItemChange(item)"
-                        md-items="item in ctrl.querySearch(ctrl.searchText)"
-                        md-item-text="item.display"
+                        md-selected-item="selectedItem"
+                        md-search-text-change="searchTextChange(searchText)"
+                        md-search-text="searchText"
+                        md-selected-item-change="selectedItemChange(item)"
+                        md-items="item in searchItens"
+                        md-item-text="item"
                         md-min-length="0"
-                        placeholder="What is your favorite US state?">
+                        placeholder="Pesquisar">
                     <md-item-template>
-                        <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
+                        <span md-highlight-text="searchText" md-highlight-flags="^i">{{item}}</span>
                     </md-item-template>
                     <md-not-found>
-                        No states matching "{{ctrl.searchText}}" were found.
-                        <a ng-click="ctrl.newState(ctrl.searchText)">Create a new one!</a>
+                        nenhum usuario ou lista encontrado.
                     </md-not-found>
                 </md-autocomplete>
             </div>
